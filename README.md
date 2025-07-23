@@ -1,6 +1,65 @@
 # dce
 random sam coding essentials :)
 
+## Jul 22, 2025
+### git reset --soft/hard
+`git reset` is a "time machine" for undoing commits.
+
+#### Why git reset
+- Great for fixing commit mistakes (wrong commit message, forgot to add a file, etc)
+- Clean up messy commit history
+- Undo commits
+- Start fresh
+
+#### Basic Commands
+```bash
+# SOFT RESET → Keeps your changes, just undos the commit
+git reset --soft HEAD~1     # undo last commit, keep changes staged
+git reset --soft HEAD~3     # undo last 3 commits, keep all changes staged
+
+# HARD RESET → Nuclear option! Deletes commites and changes
+git reset --hard HEAD~1     # undo last commit and delete all changes
+git reset --hard HEAD~3     # undo last 3 commits and delete all changes
+
+# Reset to specific commit
+git reset --soft abc123     # Go back to commit abc123, keep changes
+git reset --hard abc123     # Go back to commit abc123, DELETE everything after
+```
+
+#### Steps
+1. `git log` to see commit history
+2. Choose reset type (remember, soft keeps changes, hard removes)
+3. Pick how far back you want to go
+4. Execute the reset and git will move your branch pointer backwards
+
+#### Tips!
+- Before using `--hard`, use `git status` first to see what you might lose
+- Create backup branches before risky resets
+- To undo a hard reset, you can use `git reflog` to find lost commits (kept for 30 days)
+
+#### Example
+```bash
+# scenario: you made 3 commits but want to combine them into 1
+
+# see your commits
+git log --oneline
+# abc123 fix typo
+# def456 add feature
+# ghi789 initial attempt
+
+# soft reset to undo the 3 commits but keep all the code
+git reset --soft HEAD~3
+
+# now all your changes are staged, ready for one clean commit
+git commit -m "add complete feature with fixes"
+
+# hard reset example
+# only if you want to completely delete recent work
+git reset --hard HEAD~1  # This CANNOT be easily undone!
+```
+
+
+
 ## Jul 16, 2025
 ### Build process w/ Make
 [Make](https://www.gnu.org/software/make/manual/make.html) is a build automation tool that runs commands based on rules defined in a `Makefile`.
