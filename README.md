@@ -1,6 +1,85 @@
 # dce
 random sam coding essentials :)
 
+## Jul 29, 2025
+### GitHub templates
+Github templates are prefilled forms that automatically appear when someone opens and issue or PR in your repo. It's great because it allows for consistency, saves time, and better collaboration. For this, we will only be focusing on PR templates, but this works with github issues as well.
+
+#### Setting up
+```bash
+# create template directory in your repo root
+mkdir -p https://github.com/leesamuel423
+cd https://github.com/leesamuel423
+
+# for a single PR template
+touch PULL_REQUEST_TEMPLATE.md
+```
+
+#### Basic template ideas
+```md
+# Pull Request Template (.github/PULL_REQUEST_TEMPLATE.md)
+## Description
+Brief description of what this PR does
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] I have tested my changes locally
+- [ ] All tests pass
+
+## Screenshots (if applicable)
+Add screenshots here
+
+## Related Issues
+Closes #(issue number)
+```
+
+```md
+# Bug Report (.github/ISSUE_TEMPLATE/bug_report.md)
+---
+name: Bug report
+about: Create a report to help us improve
+title: '[BUG] '
+labels: 'bug'
+assignees: ''
+---
+
+**Describe the bug**
+A clear description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce:
+1. Go to '...'
+2. Click on '....'
+3. See error
+
+**Expected behavior**
+What you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots.
+
+**Environment:**
+- OS: [e.g. macOS]
+- Browser: [e.g. chrome, safari]
+- Version: [e.g. 22]
+```
+
+#### How this works
+1. Create templates in `.github/` folder
+2. Push to repo, and github automatically detects them
+3. User opens issue/PR and see the template pre-filled
+4. They fill it out with the info you need
+
+> [!TIP]
+> Remember: Templates are guides, not rules. Keep them helpful but not restrictive - you want to encourage contributions, not scare people away with paperwork!
+
+
+
 ## Jul 22, 2025
 ### git reset --soft/hard
 `git reset` is a "time machine" for undoing commits.
