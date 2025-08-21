@@ -1,6 +1,119 @@
 # dce
 random sam coding essentials :)
 
+## Aug 21, 2025
+### JSON processing with jq
+[jq](https://jqlang.org/) is a lightweight command-line JSON processor. Think of it as `sed` for JSON data - you can slice, filter, map and transform structured data with the same ease that sed, awk, grep let you play with text.
+
+#### Why jq
+- Parse and extract data from JSON APIs and files
+- Transform JSON structure without writing scripts
+- Pretty-print and validate JSON
+- Chain operations with pipes like other Unix tools
+- Incredibly fast and memory efficient
+- Handle streaming JSON for large datasets
+
+#### Installation
+```bash
+# macOS
+brew install jq
+
+# Linux
+apt-get install jq  # Debian/Ubuntu
+```
+
+#### Basic Commands
+```bash
+# Pretty print JSON
+echo '{"name":"sam","age":30}' | jq '.'
+
+# Extract specific field
+echo '{"name":"sam","age":30}' | jq '.name'
+# "sam"
+
+# Remove quotes from string output
+echo '{"name":"sam","age":30}' | jq -r '.name'
+# sam
+
+# Access array elements
+echo '[1,2,3,4,5]' | jq '.[2]'
+# 3
+
+# Slice arrays
+echo '[1,2,3,4,5]' | jq '.[1:3]'
+# [2,3]
+
+# Get all values from array of objects
+echo '[{"name":"alice"},{"name":"bob"}]' | jq '.[].name'
+# "alice"
+# "bob"
+```
+
+#### Powerful Operations
+```bash
+# Filter objects based on condition
+echo '[{"name":"alice","age":30},{"name":"bob","age":25}]' | jq '.[] | select(.age > 26)'
+# {"name":"alice","age":30}
+
+# Map and transform
+echo '[1,2,3]' | jq 'map(. * 2)'
+# [2,4,6]
+
+# Create new JSON structure
+echo '{"user":"sam","id":123}' | jq '{username: .user, userId: .id}'
+# {"username":"sam","userId":123}
+
+# Pipe operations together
+cat data.json | jq '.users[] | select(.active == true) | .email'
+
+# Work with nested data
+echo '{"data":{"users":[{"name":"sam"}]}}' | jq '.data.users[0].name'
+# "sam"
+
+# Conditional logic
+echo '{"score":85}' | jq 'if .score > 90 then "A" elif .score > 80 then "B" else "C" end'
+# "B"
+```
+
+#### Real-world Examples
+```bash
+# Parse GitHub API response
+curl -s https://api.github.com/users/leesamuel423 | jq '{name, public_repos, followers}'
+
+# Extract all URLs from a complex JSON
+cat response.json | jq '.. | .url? // empty'
+
+# Count items
+echo '[1,2,3,4,5]' | jq 'length'
+# 5
+
+# Sum array of numbers
+echo '[1,2,3,4,5]' | jq 'add'
+# 15
+
+# Group and aggregate data
+echo '[{"type":"A","val":1},{"type":"B","val":2},{"type":"A","val":3}]' | \
+  jq 'group_by(.type) | map({type: .[0].type, total: map(.val) | add})'
+# [{"type":"A","total":4},{"type":"B","total":2}]
+
+# Format output as CSV
+echo '[{"name":"alice","age":30},{"name":"bob","age":25}]' | \
+  jq -r '.[] | [.name, .age] | @csv'
+# "alice",30
+# "bob",25
+```
+
+#### Tips
+- Use `jq '.'` to validate and pretty-print any JSON
+- Add `-r` flag for raw output (removes quotes from strings)
+- Combine with other tools: `curl -s api.example.com | jq '.data' | grep pattern`
+- Use `-c` for compact output (one line)
+- Test complex queries at [jqplay.org](https://jqplay.org/) before using
+- Use `?` operator to suppress errors for missing keys: `.maybe_exists?`
+
+> [!TIP]
+> jq can handle huge JSON files efficiently using streaming mode (`--stream`) for processing data that doesn't fit in memory!
+
 ## Jul 29, 2025
 ### GitHub templates
 Github templates are prefilled forms that automatically appear when someone opens and issue or PR in your repo. It's great because it allows for consistency, saves time, and better collaboration. For this, we will only be focusing on PR templates, but this works with github issues as well.
